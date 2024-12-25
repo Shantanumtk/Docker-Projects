@@ -1,0 +1,19 @@
+#Slave Server
+FROM centos:7
+# Switch to vault mirrors
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+# Install packages
+RUN yum install -y \
+    python3 \
+    openssh-server \
+    vim \
+    iputils && \
+    yum clean all
+# Configure SSH
+RUN mkdir /var/run/sshd && \
+    echo 'root:root' | chpasswd && \
+    sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    ssh-keygen -A
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
