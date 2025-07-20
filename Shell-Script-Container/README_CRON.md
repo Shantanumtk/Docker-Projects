@@ -77,15 +77,32 @@ The configuration file defines services, their time windows, and associated cron
 
 ### Docker Usage
 
+**Note**: The current Alpine-based container does not include bash by default. The cron replayer requires bash to function properly.
+
+For testing the cron replayer in Docker, you have two options:
+
+1. **Use a bash-enabled base image** (modify Dockerfile):
+```dockerfile
+FROM ubuntu:latest
+# Install required packages
+RUN apt-get update && apt-get install -y bash
+```
+
+2. **Install bash in Alpine** (add to current Dockerfile):
+```dockerfile
+RUN apk add --no-cache bash
+```
+
+3. **Current Docker usage** (runs original test script):
 ```bash
 # Build the container
 docker build -t enhanced-cron-replayer .
 
-# Run the cron replayer in the container
-docker run -it --name cron-replayer-instance enhanced-cron-replayer bash /root/cron_replayer.sh
+# Run the original test script (backward compatible)
+docker run -it --name cron-container enhanced-cron-replayer
 
-# Run with specific time
-docker run -it --name cron-replayer-instance enhanced-cron-replayer bash /root/cron_replayer.sh "2024-01-15 04:30:00"
+# For cron replayer functionality, install bash first:
+docker run -it --entrypoint="" enhanced-cron-replayer sh -c "apk add --no-cache bash && /root/cron_replayer.sh"
 ```
 
 ## Output Examples
@@ -188,9 +205,16 @@ The implementation preserves all existing functionality:
 
 ## Dependencies
 
-- **bash**: For advanced shell scripting features
-- **gawk**: For floating-point calculations
-- **coreutils**: For date manipulation and system utilities
+- **bash**: For advanced shell scripting features (required)
+- **date**: For timestamp calculations (standard on most systems)
+- **Basic Unix utilities**: grep, awk, printf (standard on most systems)
+
+**Note**: The script requires bash and will not work with basic sh due to the use of:
+- Associative arrays (`declare -A`)
+- Advanced parameter expansion
+- Bash-specific arithmetic operations
+
+For Docker usage, consider using a bash-enabled base image or install bash in Alpine:
 
 ## Troubleshooting
 

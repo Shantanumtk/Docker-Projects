@@ -1,0 +1,9 @@
+# Cron Replayer Generated Files
+cron_report_*.txt
+cron_replayer.log
+test_results.log
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/

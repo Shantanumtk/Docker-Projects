@@ -79,10 +79,15 @@ is_within_window() {
         local deact_time="${SERVICE_WINDOWS[$deact_key]}"
         local act_time="${SERVICE_WINDOWS[$act_key]}"
         
-        # Convert to timestamps for comparison
-        local deact_ts=$(date -d "$deact_time" +%s)
-        local act_ts=$(date -d "$act_time" +%s)
-        local current_ts=$(date -d "$current_time" +%s)
+        # Convert to timestamps for comparison - handle invalid dates gracefully
+        local deact_ts=$(date -d "$deact_time" +%s 2>/dev/null || echo "0")
+        local act_ts=$(date -d "$act_time" +%s 2>/dev/null || echo "0")
+        local current_ts=$(date -d "$current_time" +%s 2>/dev/null || echo "0")
+        
+        # If any timestamp is invalid, assume outside window
+        if [[ $deact_ts -eq 0 || $act_ts -eq 0 || $current_ts -eq 0 ]]; then
+            return 1  # Outside window or invalid time
+        fi
         
         if [[ $current_ts -ge $deact_ts && $current_ts -le $act_ts ]]; then
             return 0  # Within window
@@ -108,8 +113,14 @@ execute_cron_job() {
     # Check if within time window
     if ! is_within_window "$service" "$execution_time"; then
         status="SKIPPED"
-        error_msg="Outside service time window"
-        log "WARN" "Job $service/$job_name skipped - outside time window"
+        # Check if it's due to invalid time format
+        if ! date -d "$execution_time" +%s >/dev/null 2>&1; then
+            error_msg="Invalid execution time format"
+            log "ERROR" "Job $service/$job_name skipped - invalid time format: $execution_time"
+        else
+            error_msg="Outside service time window"
+            log "WARN" "Job $service/$job_name skipped - outside time window"
+        fi
     else
         # Simulate job execution (85% success rate for more realistic failures)
         local failure_chance=$(( RANDOM % 100 ))
