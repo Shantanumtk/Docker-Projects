@@ -1,0 +1,50 @@
+CRON REPLAYER EXECUTION SUMMARY
+===============================
+Execution Date: 2025-07-20 07:52:27
+Total Jobs Processed: 5
+Successful Executions: 2
+Failed Executions: 3
+Skipped Executions: 0
+Success Rate (Eligible Jobs): 40%
+
+SERVICE TIME WINDOWS (OPDEACT/OPACT)
+====================================
+Service: service2        OPDEACT: 2024-01-15 01:30:00  OPACT: 2024-01-15 07:30:00  Duration: 6h
+Service: service1        OPDEACT: 2024-01-15 02:00:00  OPACT: 2024-01-15 06:00:00  Duration: 4h
+Service: service3        OPDEACT: 2024-01-15 03:00:00  OPACT: 2024-01-15 05:00:00  Duration: 2h
+
+SUCCESSFUL EXECUTIONS
+====================
+Job                       Execution Time       Duration(s)  Command
+---                       --------------       -----------  -------
+service1/backup_job       2024-01-15 04:30:00  1s           /usr/bin/backup.sh
+service2/sync_job         2024-01-15 04:30:00  2s           /usr/bin/sync.sh
+
+FAILED EXECUTIONS
+=================
+Job                       Execution Time       Duration(s)  Error
+---                       --------------       -----------  -----
+service2/monitor_job      2024-01-15 04:30:00  0s           Simulated execution failure - command returned non-zero exit code
+service1/cleanup_job      2024-01-15 04:30:00  0s           Simulated execution failure - command returned non-zero exit code
+service3/report_job       2024-01-15 04:30:00  0s           Simulated execution failure - command returned non-zero exit code
+
+SKIPPED EXECUTIONS
+==================
+No skipped executions recorded.
+
+DEBUG INFORMATION
+=================
+Script Version: 1.0
+Execution Host: pkrvmq0rgcvqdmg
+Script Path: /home/runner/work/Docker-Projects/Docker-Projects/Shell-Script-Container
+Log File: /home/runner/work/Docker-Projects/Docker-Projects/Shell-Script-Container/cron_replayer.log
+Total Memory Usage: 9.3%
+Load Average: 0.44, 0.27, 0.15
+
+Recent Log Entries:
+[2025-07-20 07:52:27] [INFO] Executing cron job: service2/monitor_job
+[2025-07-20 07:52:27] [ERROR] Job service2/monitor_job failed: Simulated execution failure - command returned non-zero exit code
+[2025-07-20 07:52:27] [INFO] Executing cron job: service3/report_job
+[2025-07-20 07:52:27] [ERROR] Job service3/report_job failed: Simulated execution failure - command returned non-zero exit code
+[2025-07-20 07:52:27] [INFO] Generating email report: /home/runner/work/Docker-Projects/Docker-Projects/Shell-Script-Container/cron_report_20250720_075227.txt
+

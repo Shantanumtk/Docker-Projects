@@ -1,0 +1,69 @@
+{
+  "services": {
+    "service1": {
+      "name": "Database Service",
+      "opdeact": "2024-01-15 02:00:00",
+      "opact": "2024-01-15 06:00:00",
+      "cron_jobs": [
+        {
+          "name": "backup_job",
+          "command": "/usr/bin/backup.sh",
+          "schedule": "0 3 * * *",
+          "description": "Daily database backup"
+        },
+        {
+          "name": "cleanup_job", 
+          "command": "/usr/bin/cleanup.sh",
+          "schedule": "30 3 * * *",
+          "description": "Cleanup old backup files"
+        }
+      ]
+    },
+    "service2": {
+      "name": "Web Service",
+      "opdeact": "2024-01-15 01:30:00",
+      "opact": "2024-01-15 07:30:00",
+      "cron_jobs": [
+        {
+          "name": "sync_job",
+          "command": "/usr/bin/sync.sh",
+          "schedule": "*/15 * * * *",
+          "description": "Sync web content"
+        },
+        {
+          "name": "monitor_job",
+          "command": "/usr/bin/monitor.sh", 
+          "schedule": "*/5 * * * *",
+          "description": "Monitor web service health"
+        }
+      ]
+    },
+    "service3": {
+      "name": "Analytics Service",
+      "opdeact": "2024-01-15 03:00:00",
+      "opact": "2024-01-15 05:00:00",
+      "cron_jobs": [
+        {
+          "name": "report_job",
+          "command": "/usr/bin/report.sh",
+          "schedule": "0 4 * * *",
+          "description": "Generate analytics reports"
+        }
+      ]
+    }
+  },
+  "email_settings": {
+    "smtp_server": "smtp.example.com",
+    "smtp_port": 587,
+    "recipients": [
+      "admin@example.com",
+      "ops@example.com"
+    ],
+    "sender": "cron-replayer@example.com"
+  },
+  "logging": {
+    "level": "INFO",
+    "max_log_size": "10MB",
+    "retention_days": 30
+  }
+}

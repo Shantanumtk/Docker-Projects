@@ -1,0 +1,49 @@
+CRON REPLAYER EXECUTION SUMMARY
+===============================
+Execution Date: 2025-07-20 07:46:19
+Total Jobs Processed: 5
+Successful Executions: 0
+Failed Executions: 0
+Skipped Executions: 5
+Success Rate (Eligible Jobs): 0%
+
+SERVICE TIME WINDOWS (OPDEACT/OPACT)
+====================================
+Service: service2        OPDEACT: 2024-01-15 01:30:00  OPACT: 2024-01-15 07:30:00  Duration: 6.00h
+Service: service1        OPDEACT: 2024-01-15 02:00:00  OPACT: 2024-01-15 06:00:00  Duration: 4.00h
+Service: service3        OPDEACT: 2024-01-15 03:00:00  OPACT: 2024-01-15 05:00:00  Duration: 2.00h
+
+SUCCESSFUL EXECUTIONS
+====================
+No successful executions recorded.
+
+FAILED EXECUTIONS
+=================
+No failed executions recorded.
+
+SKIPPED EXECUTIONS
+==================
+Job                       Execution Time       Reason       Command
+---                       --------------       ------       -------
+service2/monitor_job      2024-01-15 01:00:00  Outside service time window /usr/bin/monitor.sh
+service1/cleanup_job      2024-01-15 01:00:00  Outside service time window /usr/bin/cleanup.sh
+service1/backup_job       2024-01-15 01:00:00  Outside service time window /usr/bin/backup.sh
+service2/sync_job         2024-01-15 01:00:00  Outside service time window /usr/bin/sync.sh
+service3/report_job       2024-01-15 01:00:00  Outside service time window /usr/bin/report.sh
+
+DEBUG INFORMATION
+=================
+Script Version: 1.0
+Execution Host: pkrvmq0rgcvqdmg
+Script Path: /home/runner/work/Docker-Projects/Docker-Projects/Shell-Script-Container
+Log File: /home/runner/work/Docker-Projects/Docker-Projects/Shell-Script-Container/cron_replayer.log
+Total Memory Usage: 9.3%
+Load Average: 0.31, 0.18, 0.10
+
+Recent Log Entries:
+[2025-07-20 07:46:19] [INFO] Executing cron job: service2/monitor_job
+[2025-07-20 07:46:19] [WARN] Job service2/monitor_job skipped - outside time window
+[2025-07-20 07:46:19] [INFO] Executing cron job: service3/report_job
+[2025-07-20 07:46:19] [WARN] Job service3/report_job skipped - outside time window
+[2025-07-20 07:46:19] [INFO] Generating email report: /home/runner/work/Docker-Projects/Docker-Projects/Shell-Script-Container/cron_report_20250720_074619.txt
+
